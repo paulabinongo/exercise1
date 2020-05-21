@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import LinkButton from "../LinkButton";
+
 function Navbar({ color, src, width, height, container }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -12,31 +14,32 @@ function Navbar({ color, src, width, height, container }) {
       <div className={"container" + (container ? ` is-${container}` : "")}>
         <div className="navbar-brand">
           <a className="navbar-item">
-            <img src={src} width={width} height={height} />
+            <img className="image" src={src} width={width} height={height} />
           </a>
           <div className="navbar-item">The Form</div>
-          <div
-            className={"navbar-burger burger" + (menuOpen ? "is-active" : "")}
+          <a
+            role="button"
+            className={"navbar-burger burger" + (menuOpen ? " is-active" : "")}
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="menu"
           >
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </div>
+            <span />
+            <span />
+            <span />
+          </a>
         </div>
         <div
           id="navbarBasicExample"
-          className={"navbar-menu" + (menuOpen ? "is-active" : "")}
+          className={"navbar-menu" + (menuOpen ? " is-active" : "")}
         >
           <div className="navbar-start">
-            <a className="navbar-item has-text-white">Home</a>
+            <a className="navbar-item">Home</a>
           </div>
           <div className="navbar-end">
             <div className="navbar-item">
               <div className="buttons">
-                <a className="button">Login</a>
-                <a className="button">Sign up</a>
+                <LinkButton color="primary">Login</LinkButton>
+                <LinkButton color="danger">Sign up</LinkButton>
               </div>
             </div>
           </div>
