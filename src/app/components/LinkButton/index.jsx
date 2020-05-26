@@ -9,10 +9,12 @@ function LinkButton(props) {
     inverted,
     outlined,
     fullwidth,
+    href,
     ...otherProps
   } = props;
   return (
     <a
+      href={href}
       className={
         "button" +
         (color ? ` is-${color}` : "") +

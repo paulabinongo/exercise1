@@ -2,8 +2,15 @@ import React, { useState } from "react";
 
 import LinkButton from "../LinkButton";
 
-function Navbar({ color, src, width, height, container }) {
+import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
+
+import { getToken, deleteToken } from "../../utils/token";
+
+function Navbar(props) {
+  const { color, src, width, height, container } = props;
   const [menuOpen, setMenuOpen] = useState(false);
+  const isLoggedIn = !!getToken();
 
   return (
     <nav
@@ -16,6 +23,7 @@ function Navbar({ color, src, width, height, container }) {
           <a className="navbar-item">
             <img className="image" src={src} width={width} height={height} />
           </a>
+
           <div className="navbar-item">The Form</div>
           <a
             role="button"
@@ -33,14 +41,26 @@ function Navbar({ color, src, width, height, container }) {
           className={"navbar-menu" + (menuOpen ? " is-active" : "")}
         >
           <div className="navbar-start">
-            <a className="navbar-item">Home</a>
+            <a href="/" className="navbar-item">
+              Home
+            </a>
           </div>
           <div className="navbar-end">
             <div className="navbar-item">
-              <div className="buttons">
-                <LinkButton color="primary">Login</LinkButton>
-                <LinkButton color="danger">Sign up</LinkButton>
-              </div>
+              {isLoggedIn ? (
+                <LinkButton
+                  onClick={() => {
+                    deleteToken();
+                    props.history.push("/");
+                  }}
+                >
+                  Logout
+                </LinkButton>
+              ) : (
+                <Link to="/login">
+                  <LinkButton color="danger">Login</LinkButton>
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -49,4 +69,51 @@ function Navbar({ color, src, width, height, container }) {
   );
 }
 
-export default Navbar;
+export default withRouter(Navbar);
+// import React from "react";
+// import { withRouter } from "react-router";
+// import { Link } from "react-router-dom";
+// import { getToken, deleteToken } from "../../utils/token";
+
+// const Header = (props) => {
+//   const isLoggedIn = !!getToken();
+
+//   return (
+//     <div className="flex pa1 justify-between nowrap orange">
+//       <div className="flex flex-fixed black">
+//         <div className="fw7 mr1">Hacker News</div>
+//         <Link to="/" className="ml1 no-underline black">
+//           new
+//         </Link>
+//         {isLoggedIn && (
+//           <div className="flex">
+//             <div className="ml1">|</div>
+//             <Link to="/create" className="ml1 no-underline black">
+//               submit
+//             </Link>
+//           </div>
+//         )}
+//       </div>
+
+//       <div className="flex flex-fixed">
+//         {isLoggedIn ? (
+//           <div
+//             className="ml1 pointer black"
+//             onClick={() => {
+//               deleteToken();
+//               props.history.push("/");
+//             }}
+//           >
+//             logout
+//           </div>
+//         ) : (
+//           <Link to="/login" className="ml1 no-underline black">
+//             login
+//           </Link>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default withRouter(Header);
